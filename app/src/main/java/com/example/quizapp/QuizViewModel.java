@@ -6,7 +6,7 @@ import java.util.List;
 
 public class QuizViewModel extends ViewModel {
 
-    private final TextFileManager fileManager = new TextFileManagerImpl();
+    private final ITextFileManager fileManager = new TextFileManager();
     private List<QuizQuestion> quizQuestions;
     private final Integer nofQuestions = 5;
     private Integer currentQuestionNumber = 0;
