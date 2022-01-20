@@ -1,38 +1,40 @@
 package com.example.quizapp;
 
+import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 
 public class ParsedFile {
     //All lines in parsed file, even with no value.
-    public List<LineProperties> Lines;
+    public List<LineProperties> Lines = new ArrayList<LineProperties>();
 
-    public ParsedFile(String fileName) {
+    public ParsedFile(Uri uri, Context mContext) {
 
         String fileContent = "";
         try {
-            File myObj = new File(fileName);
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine())
-            {
-                String data = myReader.nextLine();
-                fileContent += data + "\n";
-            }
-        } catch (FileNotFoundException e) {
+            fileContent = readTextFromUri(uri, mContext);
+        } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-
         int lineNumber = 0;
         for (String line : fileContent.split("\n")) {
             int indentLevel = 0;
@@ -57,6 +59,7 @@ public class ParsedFile {
             Lines.add(newLine);
             lineNumber++;
         }
+        Log.e("ParasedFile", String.valueOf(lineNumber));
     }
 
     public LineProperties GetParent(int LineNumber, int ChildIndentLevel) {
@@ -84,5 +87,19 @@ public class ParsedFile {
             output.add(new QuizQuestion("What is the value of " + line.GetLineParents() + "?", line.Value));
         }
         return output;
+    }
+
+    private String readTextFromUri(Uri uri, Context mContext) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (InputStream inputStream =
+                     mContext.getContentResolver().openInputStream(uri);
+             BufferedReader reader = new BufferedReader(
+                     new InputStreamReader(Objects.requireNonNull(inputStream)))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuilder.append(line + '\n');
+            }
+        }
+        return stringBuilder.toString();
     }
 }

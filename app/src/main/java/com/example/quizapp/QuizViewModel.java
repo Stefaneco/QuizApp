@@ -1,5 +1,8 @@
 package com.example.quizapp;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.lifecycle.ViewModel;
 
 import java.util.List;
@@ -11,9 +14,9 @@ public class QuizViewModel extends ViewModel {
     private final Integer nofQuestions = 5;
     private Integer currentQuestionNumber = 0;
 
-    public boolean fetchQuestions(String path){
-        if (fileManager.isCorrectFile(path, nofQuestions)) {
-            quizQuestions = fileManager.getQuestions(path, nofQuestions);
+    public boolean fetchQuestions(Uri uri, Context mContext){
+        if (fileManager.isCorrectFile(uri, nofQuestions, mContext)) {
+            quizQuestions = fileManager.getQuestions(uri, nofQuestions, mContext);
             return true;
         }
         return false;
@@ -32,10 +35,10 @@ public class QuizViewModel extends ViewModel {
         currentQuestionNumber += 1;
     }
 
-    public boolean moreQuestions(){
+    public boolean moreQuestions(Context mContext){
         if (nofQuestions - currentQuestionNumber != 0) return true;
         else {
-            fileManager.saveAnswers(quizQuestions);
+            fileManager.saveAnswers(quizQuestions, mContext);
             return  false;
         }
     }

@@ -52,7 +52,7 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 viewModel.setAnswer(etAnswer.getText().toString());
-                if(viewModel.moreQuestions()){
+                if(viewModel.moreQuestions(getContext())){
                     tvQuestion.setText(viewModel.getNextQuestion());
                     etAnswer.setText("");
                 }

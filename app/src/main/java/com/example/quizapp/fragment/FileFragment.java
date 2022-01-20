@@ -56,7 +56,7 @@ public class FileFragment extends Fragment {
                         if (uri != null) {
                             String path = uri.getPath();
                             tvSelectedFile.setText(path);
-                            if(viewModel.fetchQuestions(path))
+                            if(viewModel.fetchQuestions(uri, requireContext()))
                                 btPlay.setEnabled(true);
                         }
                     }
