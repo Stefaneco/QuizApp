@@ -51,7 +51,7 @@ public class TextFileManager implements ITextFileManager {
         String sFileName = "answers" + formatter.format(date) + ".txt";
         StringBuilder textToSave = new StringBuilder();
         FileOutputStream fos = null;
-        File outputFile = new File(Environment.getExternalStorageDirectory(), sFileName);
+        File outputFile = new File(Environment.DIRECTORY_DOCUMENTS, sFileName);
         for (QuizQuestion answer : answers)
         {
             textToSave.append( "\t" + answer.question + "\nCorrect answer: "
@@ -60,8 +60,8 @@ public class TextFileManager implements ITextFileManager {
         try {
             fos = new FileOutputStream(outputFile);
             fos.write(textToSave.toString().getBytes(StandardCharsets.UTF_8));
-            Log.e("TextFileManager", "Saved to " + Environment.getExternalStorageDirectory() + '/' + sFileName);
-            Toast.makeText(mContext, "Saved to " + Environment.getExternalStorageDirectory() + '/' + sFileName,
+            Log.e("TextFileManager", "Saved to " + Environment.DIRECTORY_DOCUMENTS + '/' + sFileName);
+            Toast.makeText(mContext, "Saved to " + Environment.DIRECTORY_DOCUMENTS + '/' + sFileName,
                     Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
