@@ -38,16 +38,16 @@ public class ParsedFile {
         int lineNumber = 0;
         for (String line : fileContent.split("\n")) {
             int indentLevel = 0;
-            while (fileContent.startsWith("    ")) {
+            while (line.startsWith("    ")) {
                 indentLevel++;
-                fileContent.replaceFirst(" {4}", "");
+                line = line.replaceFirst(" {4}", "");
             }
             int colonPosition = line.indexOf(':');
             String Name;
             String Value;
             if (colonPosition > -1) {
                 Name = line.substring(0, colonPosition);
-                Value = line.substring(colonPosition + 1);
+                Value = line.substring(colonPosition + 1).trim();
             } else {
                 Name = line;
                 Value = null;
@@ -59,7 +59,6 @@ public class ParsedFile {
             Lines.add(newLine);
             lineNumber++;
         }
-        Log.e("ParasedFile", String.valueOf(lineNumber));
     }
 
     public LineProperties GetParent(int LineNumber, int ChildIndentLevel) {
@@ -83,7 +82,7 @@ public class ParsedFile {
             {
                 line = this.Lines.get(random.nextInt(this.Lines.size()));
             }
-            String question = "What is the value of " + line.GetLineParents() + "?";
+            String question = "What is the value of:\n" + line.GetLineParents() + "?";
             output.add(new QuizQuestion("What is the value of " + line.GetLineParents() + "?", line.Value));
         }
         return output;

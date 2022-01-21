@@ -1,5 +1,7 @@
 package com.example.quizapp;
 
+import android.util.Log;
+
 import java.util.List;
 
 public class LineProperties {
@@ -37,11 +39,11 @@ public class LineProperties {
 
     public String GetLineParents()
     {
-        StringBuilder output = new StringBuilder(this.Name);
+        StringBuilder output = new StringBuilder(this.Name.trim());
         LineProperties parent = this.Parent;
         while (parent != null)
         {
-            output.insert(0, parent.Name + ": ");
+            output.insert(0, parent.Name.trim() + ":\n");
             parent = parent.Parent;
         }
         return output.toString();
