@@ -51,7 +51,11 @@ public class TextFileManager implements ITextFileManager {
         String sFileName = "answers" + formatter.format(date) + ".txt";
         StringBuilder textToSave = new StringBuilder();
         FileOutputStream fos = null;
-        File outputFile = new File(Environment.DIRECTORY_DOCUMENTS, sFileName);
+        File outputFile = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), sFileName);
+        if(!outputFile.exists()){
+            outputFile.getParentFile().mkdirs();
+        }
         for (QuizQuestion answer : answers)
         {
             textToSave.append( "\t" + answer.question + "\nCorrect answer: "

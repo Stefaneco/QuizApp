@@ -15,6 +15,7 @@ public class QuizViewModel extends ViewModel {
     private Integer currentQuestionNumber = 0;
 
     public boolean fetchQuestions(Uri uri, Context mContext){
+        currentQuestionNumber = 0;
         if (fileManager.isCorrectFile(uri, nofQuestions, mContext)) {
             quizQuestions = fileManager.getQuestions(uri, nofQuestions, mContext);
             return true;
